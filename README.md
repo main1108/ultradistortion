@@ -25,6 +25,6 @@ There's 2 config values in `susinopo.ULTRADistortion.cfg`.
 in default, it add the AudioDistortionFilter component in the gameobject who have AudioListener component.
 if you turns on the OnlyMusic, it attaches AudioDistortionFilter to audiosource which plays music.
 
-### acknowledgments
+## acknowledgments
 
 [@kazukazu123123](https://github.com/kazukazu123123) for Idea of this mod.
