@@ -11,7 +11,7 @@ ULTRADistortion is a mod to DESTROY your ears.
 3. Put the `ultradistortion.dll` into the `gamefolder/BepInEx/plugins'.
 4. Done.
 
-## Config
+## Config(Standalone)
 
 There's 2 config values in `susinopo.ULTRADistortion.cfg`.
 
@@ -19,6 +19,12 @@ There's 2 config values in `susinopo.ULTRADistortion.cfg`.
 - `OnlyMusic` Only music to distorted.
 
 **Changes to these values are not applied until the game restart.**
+
+## Config(PluginConfigurator)
+
+This mod supports [PluginConfigurator](https://github.com/eternalUnion/UKPluginConfigurator)
+if PluginConfigurator is installed to ULTRAKILL, it won't read from .cfg file.
+and value change are applies almost instant.
 
 ## How it works
 

@@ -11,7 +11,7 @@ ULTRADistortionはULTRAKILLを爆音にするmodです。
 3. `ultradistortion.dll`を`gamefolder/BepInEx/plugins'の中に入れます。
 4. 完了です。
 
-## 設定
+## 設定(単体)
 
 このmodにはconfigの値が2つあります。
 これらのconfigは`susinopo.ULTRADistortion.cfg`から編集できます。
@@ -20,6 +20,11 @@ ULTRADistortionはULTRAKILLを爆音にするmodです。
 - `OnlyMusic` 音楽以外に影響を与えないようにします(trueかfalse)
 
 **config値の変更はゲームを再起動しない限り反映されません。**
+
+## 設定(PluginConfigurator)
+
+このmodは[PluginConfigurator](https://github.com/eternalUnion/UKPluginConfigurator)に対応しています。
+PluginConfiguratorが導入されている場合、cfgファイルは無効化され、config値の変更はconfig画面を閉じた時に反映されるようになります。
 
 ## このmodの仕組み
 
