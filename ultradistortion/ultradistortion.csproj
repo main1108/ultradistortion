@@ -44,8 +44,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="PluginConfigurator">
-      <HintPath>D:\UK\ULTRAKILL\BepInEx\plugins\EternalsTeam-PluginConfigurator\PluginConfigurator\PluginConfigurator.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>$(ULTRAKILLPath)\profiles\Default\BepInEx\plugins\EternalsTeam-PluginConfigurator\PluginConfigurator\PluginConfigurator.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine">
       <HintPath>$(ULTRAKILLPath)\ULTRAKILL_Data\Managed\UnityEngine.dll</HintPath>

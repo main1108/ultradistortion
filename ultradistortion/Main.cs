@@ -4,11 +4,24 @@ using BepInEx.Logging;
 using HarmonyLib;
 using System;
 using System.IO;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace ultradistortion
 {
+    public static class a
+    {
+        public static PluginConfiguratorIntegrator integrator = new PluginConfiguratorIntegrator();
+        public static void CallPluginConfigurator()
+        {
+            if (!integrator.PluginConfigulatorIntegration())
+            {
+                Plugin.log.LogError("[ERROR] Failed to Initialize config manager!");
+            }
+
+        }
+    }
     [BepInPlugin(Guid, InternalName, InternalVersion)]
     public class Plugin : BaseUnityPlugin
     {
@@ -17,19 +30,15 @@ namespace ultradistortion
         public static ConfigEntry<bool> onlymusic;
         public static float audioIntensityValue = 0.5f;
         public static bool isOnlyMusicValue = false;
-        public static PluginConfiguratorIntegrator integrator = new PluginConfiguratorIntegrator();
         public static bool isthereconfigManager;
         private const string Guid = "susinopo.ULTRADistortion";
         private const string InternalName = "ULTRADistortion";
         private const string InternalVersion = "0.0.1";
-        private void SetConfig()
+        public void SetConfig()
         {
-            audiodistortionlevel = Config.Bind("Audio", "AudioDistortionLevel", 0.5f, "Value of AudioDistortionFilter.distortionLevel");
-            onlymusic = Config.Bind("Audio", "OnlyMusic", false, "Only music to distorted.");
             audioIntensityValue = audiodistortionlevel.Value;
             isOnlyMusicValue = onlymusic.Value;
         }
-
         private void Awake()
         {
             log.LogWarning("UltraDistortion Loading... | Version v." + InternalVersion);
@@ -44,17 +53,14 @@ namespace ultradistortion
             );
             if (isthereconfigManager)
             {
-                log.LogInfo($"[DEBUG] AHIGUEVSDHSEBGUDBUH");
-
-                if (!integrator.PluginConfigulatorIntegration(ref isOnlyMusicValue, ref audioIntensityValue))
-                {
-                    log.LogError("[ERROR] Failed to Initialize config manager!");
-
-                    SetConfig();
-                }
+                log.LogInfo($"PluginConfigurator Detected!");
+                log.LogDebug($"[DEBUG] Calling PluginConfigurator Integration");
+                a.CallPluginConfigurator();
             }
             else
             {
+                audiodistortionlevel = Config.Bind("Audio", "AudioDistortionLevel", 0.5f, "Intensity. a.k.a Earrape Amount");
+                onlymusic = Config.Bind("Audio", "OnlyMusic", false, "Only music to be distorted.");
                 SetConfig();
             }
             try
@@ -72,10 +78,9 @@ namespace ultradistortion
         {
             foreach (GameObject obj in rootObjects)
             {
-                log.LogInfo("adsadlwakeaiwemkiowa");
-                log.LogInfo("Current Config Value");
-                log.LogInfo("OnlyMusic: "+ isOnlyMusicValue);
-                log.LogInfo("Intensity: " + audioIntensityValue);
+                log.LogDebug("Current Config Value");
+                log.LogDebug("OnlyMusic: "+ isOnlyMusicValue);
+                log.LogDebug("Intensity: " + audioIntensityValue);
                 if (isOnlyMusicValue)
                 {
                     try
@@ -124,33 +129,36 @@ namespace ultradistortion
                     }
                     catch (Exception e) { }
                 }
-                if (!isOnlyMusicValue)
+                try
                 {
+                    AudioListener listener = obj.GetComponentInChildren<AudioListener>();
                     try
                     {
-                        AudioListener listener = obj.GetComponentInChildren<AudioListener>();
-                        try
+                        float audioIntensityValueI = audioIntensityValue;
+                        if (isOnlyMusicValue)
                         {
-                            if (listener.gameObject.GetComponent<AudioDistortionFilter>() == null)
-                            {
-                                AudioDistortionFilter a = listener.gameObject.AddComponent<AudioDistortionFilter>();
-                                a.distortionLevel = audioIntensityValue;
-                            }
-                            else
-                            {
-                                listener.gameObject.GetComponent<AudioDistortionFilter>().distortionLevel = audioIntensityValue;
-                            }
+                            audioIntensityValueI = 0;
                         }
-                        catch (Exception e)
+                        if (listener.gameObject.GetComponent<AudioDistortionFilter>() == null)
                         {
-                            log.LogDebug("Failed to Add AudioDistortionFilter!" + e.Message);
+                            AudioDistortionFilter a = listener.gameObject.AddComponent<AudioDistortionFilter>();
+                            a.distortionLevel = audioIntensityValueI;
+                        }
+                        else
+                        {
+                            listener.gameObject.GetComponent<AudioDistortionFilter>().distortionLevel = audioIntensityValueI;
                         }
                     }
                     catch (Exception e)
                     {
-                        log.LogDebug("Failed to Get AudioListner!" + e.Message);
+                        log.LogDebug("Failed to Add AudioDistortionFilter!" + e.Message);
                     }
                 }
+                catch (Exception e)
+                {
+                    log.LogDebug("Failed to Get AudioListner!" + e.Message);
+                }
+                
             }
         }
     }

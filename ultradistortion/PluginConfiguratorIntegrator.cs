@@ -12,7 +12,7 @@ namespace ultradistortion
         BoolField isMusicOnlyField;
         FloatField intensityField;
         private PluginConfigurator config;
-        public bool PluginConfigulatorIntegration(ref bool isMusicOnly, ref float intensity)
+        public bool PluginConfigulatorIntegration()
         {
             if (Plugin.isthereconfigManager)
             {
@@ -20,8 +20,6 @@ namespace ultradistortion
                 config = PluginConfigurator.Create("UltraDistortion", "ultra_distortion");
                 isMusicOnlyField = new BoolField(config.rootPanel, "MusicOnly", "enabler", true);
                 intensityField = new FloatField(config.rootPanel, "Intensity (Earrape Amount)", "intensity", 0.0f);
-                isMusicOnly = isMusicOnlyField.value;
-                intensity = intensityField.value;
                 config.postConfigChange += Config_postConfigChange;
                 return true;
             }
