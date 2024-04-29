@@ -33,7 +33,7 @@ namespace ultradistortion
         public static bool isthereconfigManager;
         private const string Guid = "susinopo.ULTRADistortion";
         private const string InternalName = "ULTRADistortion";
-        private const string InternalVersion = "0.0.2";
+        private const string InternalVersion = "0.1.0";
         public void SetConfig()
         {
             audioIntensityValue = audiodistortionlevel.Value;
