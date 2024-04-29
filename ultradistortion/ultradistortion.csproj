@@ -43,6 +43,9 @@
       <HintPath>$(ULTRAKILLPath)\BepInEx\core\BepInEx.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="PluginConfigurator">
+      <HintPath>$(ULTRAKILLPath)\profiles\Default\BepInEx\plugins\EternalsTeam-PluginConfigurator\PluginConfigurator\PluginConfigurator.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine">
       <HintPath>$(ULTRAKILLPath)\ULTRAKILL_Data\Managed\UnityEngine.dll</HintPath>
       <Private>False</Private>
@@ -66,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
+    <Compile Include="PluginConfiguratorIntegrator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
