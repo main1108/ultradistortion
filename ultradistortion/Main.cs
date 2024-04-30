@@ -42,7 +42,7 @@ namespace ultradistortion
         private void Awake()
         {
             log.LogWarning("UltraDistortion Loading... | Version v." + InternalVersion);
-            isthereconfigManager = File.Exists(
+            /*isthereconfigManager = File.Exists(
                 Path.Combine(
                     Paths.BepInExRootPath,
                     "plugins",
@@ -50,7 +50,8 @@ namespace ultradistortion
                     "PluginConfigurator",
                     "PluginConfigurator.dll"
                 )
-            );
+            );*/
+            isthereconfigManager = Directory.GetFiles(Path.Combine(Paths.BepInExRootPath, "plugins"), "PluginConfigurator.dll", SearchOption.AllDirectories).Length > 0;
             if (isthereconfigManager)
             {
                 log.LogInfo($"PluginConfigurator Detected!");
