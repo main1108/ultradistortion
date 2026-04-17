@@ -1,26 +1,25 @@
 ﻿using PluginConfig.API;
 using PluginConfig.API.Fields;
-using UnityEngine.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace ultradistortion
 {
     public class PluginConfiguratorIntegrator
     {
-        private bool a;
-        private float b;
-        BoolField isMusicOnlyField;
-        FloatField intensityField;
+        public static BoolField isMusicOnlyField;
+        public static FloatField intensityField;
         private PluginConfigurator config;
         public bool PluginConfigulatorIntegration()
         {
             if (Plugin.isthereconfigManager)
             {
-                //Plugin.log.LogDebug(")EHIDHDUIHD(V$R&TWBNGIGU");
                 config = PluginConfigurator.Create("UltraDistortion", "ultra_distortion");
                 isMusicOnlyField = new BoolField(config.rootPanel, "MusicOnly", "enabler", true);
                 intensityField = new FloatField(config.rootPanel, "Intensity (Earrape Amount)", "intensity", 0.0f);
                 config.postConfigChange += Config_postConfigChange;
+                GameObject[] rootObjects = SceneManager.GetActiveScene().GetRootGameObjects();
+                Plugin.EarRapeApply(rootObjects);
                 return true;
             }
             return false;
