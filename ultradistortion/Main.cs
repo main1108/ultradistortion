@@ -43,7 +43,7 @@ namespace ultradistortion
         public static ManualLogSource log = BepInEx.Logging.Logger.CreateLogSource("ULTRADistortion");
         public static ConfigEntry<float> audiodistortionlevel;
         public static ConfigEntry<bool> onlymusic;
-        public static float audioIntensityValue = 0.5f;
+        public static float audioIntensityValue = 1f;
         public static bool isOnlyMusicValue = false;
         public static bool isthereconfigManager;
         private const string Guid = "susinopo.ULTRADistortion";
@@ -56,11 +56,10 @@ namespace ultradistortion
         }
         private void Start()
         {
-            log.LogWarning("UltraDistortion Loading... | Version v." + InternalVersion);
+            log.LogInfo("UltraDistortion Loading... | Version v." + InternalVersion);
             if (isthereconfigManager = Chainloader.PluginInfos.ContainsKey("com.eternalUnion.pluginConfigurator"))
             {
                 log.LogInfo($"PluginConfigurator Detected!");
-                log.LogDebug($"[DEBUG] Calling PluginConfigurator Integration");
                 a.CallPluginConfigurator();
             }
             else
@@ -105,7 +104,7 @@ namespace ultradistortion
             log.LogDebug("OnlyMusic: " + isOnlyMusicValue);
             log.LogDebug("Intensity: " + audioIntensityValue);
             string scenename = SceneHelper.CurrentScene;
-            log.LogInfo("CurrentScene: " + "|" + scenename + "|");
+            log.LogDebug("CurrentScene: " + "|" + scenename + "|");
             foreach (GameObject obj in rootObjects)
             {
                 if (isOnlyMusicValue)
@@ -143,8 +142,8 @@ namespace ultradistortion
         {
             try
             {
-                //if (scenename == "" || scenename == "Bootstrap" || scenename == "Intro")
-                //{ return; }
+                if (scenename == "" || scenename == "Bootstrap" || scenename == "Intro")
+                { return; }
                 if (obj.name == "Beats")
                 {
                     AudioSource[] music = obj.GetComponentsInChildren<AudioSource>(true);
@@ -329,6 +328,19 @@ namespace ultradistortion
                             }
                         }
                         break;
+                    case string a when a.Contains("Intermission"):
+                        if (obj.name == "Canvas")
+                        {
+                            AudioSource[] sounds = obj.GetComponentsInChildren<AudioSource>(true);
+                            foreach (AudioSource aus in sounds)
+                            {
+                                if (aus.gameObject.name.Contains("Music"))
+                                {
+                                    DistortApply(aus);
+                                }
+                            }
+                        }
+                        break;
                     case string a when a.Contains("Endless"):
                         if (obj.name == "Everything")
                         {
@@ -337,6 +349,19 @@ namespace ultradistortion
                             foreach (AudioSource aus in sounds)
                             {
                                 DistortApply(aus);
+                            }
+                        }
+                        break;
+                    case string a when a.Contains("CreditsMuseum2"):
+                        if (obj.name == "Music" || obj.name == "__Room_Theater")
+                        {
+                            AudioSource[] music = obj.GetComponentsInChildren<AudioSource>(true);
+                            foreach (AudioSource aus in music)
+                            {
+                                if (aus.gameObject.name.Contains("Music Player") || aus.gameObject.name.Contains("VideoAudioSource"))
+                                {
+                                    DistortApply(aus);
+                                }
                             }
                         }
                         break;

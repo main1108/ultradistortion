@@ -2,7 +2,7 @@
 
 [![English](https://img.shields.io/badge/English-a?style=flat-square&color=blue)](https://github.com/main1108/ultradistortion/blob/master/README.md) [![日本語](https://img.shields.io/badge/%E6%97%A5%E6%9C%AC%E8%AA%9E-a?style=flat-square)](https://github.com/main1108/ultradistortion/blob/master/README_JP.md)
 
-ULTRADistortion is a mod to DESTROY your ears.
+ULTRADistortion is a mod that can make the game sound EXTREMELY LOUD.
 
 ## How To Use
 
@@ -23,13 +23,13 @@ There's 2 config values in `susinopo.ULTRADistortion.cfg`.
 ## Config(PluginConfigurator)
 
 This mod supports [PluginConfigurator](https://github.com/eternalUnion/UKPluginConfigurator)
-if PluginConfigurator is installed to ULTRAKILL, it won't read from .cfg file.
-and value change are applies almost instant.
+If PluginConfigurator is installed to ULTRAKILL, it ignores the .cfg file.
+config changes from PluginConfigurator are applied as the config menu closes.
 
 ## How it works
 
-in default, it add the AudioDistortionFilter component in the gameobject who have AudioListener component.
-if you turns on the OnlyMusic, it attaches AudioDistortionFilter to audiosource which plays music.
+In default, it adds the AudioDistortionFilter component to GameObject have AudioListener component.
+When `OnlyMusic` is true, it attaches the AudioDistortionFilter to corresponding AudioSource.
 
 ## acknowledgments
 
