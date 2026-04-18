@@ -48,7 +48,7 @@ namespace ultradistortion
         public static bool isthereconfigManager;
         private const string Guid = "susinopo.ULTRADistortion";
         private const string InternalName = "ULTRADistortion";
-        private const string InternalVersion = "1.0.1";
+        private const string InternalVersion = "1.0.2";
         public void SetConfig()
         {
             audioIntensityValue = audiodistortionlevel.Value;
@@ -79,8 +79,9 @@ namespace ultradistortion
                 Logger.LogFatal(e.ToString());
             }
         }
-        private static void DistortApply(AudioSource aus)
+        public static void DistortApply(AudioSource aus)
         {
+            float audInten = isOnlyMusicValue ? audioIntensityValue : 0f;
             if (aus != null)
             {
                 if (aus.GetComponent<GetMusicVolume>() != null)
@@ -90,11 +91,11 @@ namespace ultradistortion
                 if (aus.GetComponent<AudioDistortionFilter>() == null)
                 {
                     AudioDistortionFilter a = aus.gameObject.AddComponent<AudioDistortionFilter>();
-                    a.distortionLevel = audioIntensityValue;
+                    a.distortionLevel = audInten;
                 }
                 else
                 {
-                    aus.GetComponent<AudioDistortionFilter>().distortionLevel = audioIntensityValue;
+                    aus.GetComponent<AudioDistortionFilter>().distortionLevel = audInten;
                 }
             }
         }
@@ -109,7 +110,7 @@ namespace ultradistortion
             {
                 if (isOnlyMusicValue)
                 {
-                    musicDistort(obj, scenename);
+                    MusicDistort(obj, scenename);
                 }
                 AudioListener listener = obj.GetComponentInChildren<AudioListener>();
                 try
@@ -138,7 +139,7 @@ namespace ultradistortion
                 }
             }
         }
-        private static void musicDistort(GameObject obj, string scenename)
+        private static void MusicDistort(GameObject obj, string scenename)
         {
             try
             {
@@ -270,7 +271,7 @@ namespace ultradistortion
                             AudioSource[] music = obj.GetComponentsInChildren<AudioSource>(true);
                             foreach (AudioSource aus in music)
                             {
-                                if (aus.transform.parent == null || aus.gameObject.name.ToLower().Contains("romusic"))
+                                if (aus.transform.parent == null || aus.gameObject.name.ToLower().Contains("romusic") || aus.transform.parent.name.Contains("Music"))
                                 {
                                     DistortApply(aus);
                                 }
@@ -294,6 +295,19 @@ namespace ultradistortion
                                 }
                             }
 
+                        }
+                        break;
+                    case string a when a.Contains("8-4"):
+                        if(obj.name.Contains("Music") || obj.name.Contains("Intro") || obj.name.Contains("The End"))
+                        {
+                            AudioSource[] music = obj.GetComponentsInChildren<AudioSource>(true);
+                            foreach (AudioSource aus in music)
+                            {
+                                if (aus.gameObject.name.Contains("Music") || aus.gameObject.name.Contains("Drone") || aus.gameObject.name.Contains("Spot Light") || aus.gameObject.name.Contains("Impact"))
+                                {
+                                    DistortApply(aus);
+                                }
+                            }
                         }
                         break;
                     case string a when a.Contains("P-1"):
