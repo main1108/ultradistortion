@@ -16,8 +16,8 @@ namespace ultradistortion
             if (Plugin.isthereconfigManager)
             {
                 config = PluginConfigurator.Create("UltraDistortion", "ultra_distortion");
-                isMusicOnlyField = new BoolField(config.rootPanel, "MusicOnly", "enabler", false);
-                intensityField = new FloatSliderField(config.rootPanel, "Intensity (Earrape Amount)", "intensity", new Tuple<float, float>(0.0f, 1.0f), 1.0f, 3, true, true);
+                isMusicOnlyField = new BoolField(config.rootPanel, "OnlyMusic", "enabler", false);
+                intensityField = new FloatSliderField(config.rootPanel, "AudioDistortionLevel (Earrape Amount)", "intensity", new Tuple<float, float>(0.0f, 1.0f), 1.0f, 3, true, true);
                 isMusicOnlyField.onValueChange += (evt) => Config_postConfigChange(null, evt.value);
                 intensityField.postValueChangeEvent += (value, bounds) => Config_postConfigChange(value, null);
                 GameObject[] rootObjects = SceneManager.GetActiveScene().GetRootGameObjects();
